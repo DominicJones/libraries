@@ -1,0 +1,183 @@
+# -*- sh -*-
+
+alias yasm="~/bin/yasm/yasm"
+alias ipe="/usr/bin/ipe"
+alias python3="~/bin/Python-3.3.3/python"
+
+
+# export TREE_HOME=$HOME/bin/tree-1.6.0
+# export PATH=$TREE_HOME:$PATH
+# export DMD_HOME=$HOME/bin/dmd2
+# export PATH=$DMD_HOME/linux/bin64:$PATH
+# export LOGISIM_HOME=$HOME/bin
+# alias logisim="java -jar ${LOGISIM_HOME}/logisim-generic-2.7.1.jar"
+# export LATEXDRAW_HOME=$HOME/bin/LaTeXDraw2.0.8/manualinstall
+# alias latexdraw="java -jar ${LATEXDRAW_HOME}/LaTeXDraw.jar"
+
+
+# Star-CCM+
+CCM_COMPILER=gnu4.8
+CCM_MIRROR=/users/ccm+dev
+# CCM_MIRROR=/home/star/mirror
+CCM_HOME=$HOME/dev/starccmplus-master
+export CCM_BUILDS=/install/STAR-CCMP
+export CCM_STD_BUILDS=$CCM_BUILDS/lin64
+export CCM_R8_BUILDS=$CCM_BUILDS/lin64-r8
+export CCM_BASELINES=${CCM_MIRROR}/baselines
+export PATH=${PATH}:${CCM_MIRROR}
+export ENABLE_CCACHE=YesPlease
+
+alias make-std-g="make NOLICENSE=1 ENV=${CCM_COMPILER}-g -k -j16"
+alias make-std="make NOLICENSE=1 ENV=${CCM_COMPILER} -k -j16"
+alias make-r8-g="make NOLICENSE=1 ENV=${CCM_COMPILER}-r8-g -k -j16"
+alias make-r8="make NOLICENSE=1 ENV=${CCM_COMPILER}-r8 -k -j16"
+
+
+# Git
+export GIT_HOME=${CCM_MIRROR}/git/1.7.2.3/linux-x86_64
+# export GIT_HOME=${CCM_MIRROR}/git/latest/linux-x86_64
+export PATH=$GIT_HOME/bin:$PATH
+export MANPATH=$GIT_HOME/share/man:$MANPATH
+export GIT_EXEC_PATH=$GIT_HOME/libexec/git-core
+export GIT_TEMPLATE_DIR=$GIT_HOME/share/git-core/templates
+
+
+# Java
+#export JAVA_HOME=`${CCM_HOME}/star/bin/getjdk`
+#export PATH=$JAVA_HOME/bin:$PATH
+
+
+# GCC
+export GCC_HOME=$CCM_HOME/compilers/linux-x86_64-2.10.1/gnu4.8.3
+#export PATH=$GCC_HOME/bin:$PATH
+alias g++03="${GCC_HOME}/bin/g++ -std=c++03 -static-libstdc++"
+alias g++11="${GCC_HOME}/bin/g++ -std=c++11 -static-libstdc++"
+alias g++14="${GCC_HOME}/bin/g++ -std=c++1y -static-libstdc++"
+
+
+function london_machine
+{
+    echo law.london.cd-adapco.com
+}
+
+
+function cypher_login
+{
+    rdesktop -a 16 -g 1680x1050 cypher.london.cd-adapco.com -d WINDOWS -u dominic -p -
+}
+
+
+function cd_freenas
+{
+    cd /users/freenas
+}
+
+
+function ccm+-std
+{
+    ./bin/starccm+ -env ${CCM_COMPILER} $@
+}
+
+
+function ccm+-std-g
+{
+    ./bin/starccm+ -env ${CCM_COMPILER}-g $@
+}
+
+
+function ccm+-r8
+{
+    ./bin/starccm+ -env ${CCM_COMPILER}-r8 $@
+}
+
+
+function ccm+-r8-g
+{
+    ./bin/starccm+ -env ${CCM_COMPILER}-r8-g $@
+}
+
+
+function kill_ccm+
+{
+    ./bin/kill_starccm+
+}
+
+
+function get_star
+{
+    if [ -z $1 ]; then
+        echo "no directory given"
+        return 1
+    fi
+
+    ccm_home=$1
+    mkdir ${ccm_home}
+    chmod o-rwx ${ccm_home}
+
+    cd ${ccm_home}
+    git clone git@starcvs:star.git
+    ln -s $CCM_MIRROR .dev
+}
+
+
+function update_star_sandbox
+{
+    if [ -z $1 ]; then
+        echo "no directory given"
+        return 1
+    fi
+    ccm_home=$1
+
+    cd ${ccm_home}/star
+    git remote add sandbox git@starcvs:star-sandbox.git
+    git remote update
+}
+
+
+function get_star_sandbox_branch
+{
+    if [ -z $1 ]; then
+        echo "no directory given"
+        return 1
+    fi
+    ccm_home=$1
+
+    if [ -z $2 ]; then
+        echo "no branch name given"
+        return 1
+    fi
+    branch=$2
+
+    cd ${ccm_home}/star
+    git remote add sandbox git@starcvs:star-sandbox.git
+    git remote update
+    # git co -b $(basename $branch) $branch
+    git co -b $branch $branch
+
+}
+
+
+function get_startest
+{
+    if [ -z $1 ]; then
+        echo "no directory for CCM_HOME given"
+        return 1
+    fi
+
+    ccm_home=$1
+    cd ${ccm_home}
+    git clone git@starcvs:startest.git
+}
+
+
+function startest-r8
+{
+#    ./bin/startest -env ${CCM_COMPILER}-r8 -g precisionr8 $@
+    ./bin/startest -env ${CCM_COMPILER}-r8 $@
+}
+
+
+function startest-r8-adjoint
+{
+    startest-r8 -m adjoint $@
+}

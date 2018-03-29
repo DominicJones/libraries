@@ -1,0 +1,67 @@
+# set user name and email address
+[user]
+        name = Dominic Jones
+        email = dominic.jones@
+# ----- do not edit below this line unless you know what you are doing ------
+# use colors to improve readability of git output
+[color]
+        ui = true
+# alias commands to save typing
+[alias]
+        st = status
+        co = checkout
+        br = branch
+        ci = commit
+        di = diff
+        ca = commit -a
+        tree = log --oneline --decorate --graph
+        this = rev-parse --abbrev-ref HEAD
+        hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+        ddiff = difftool -g -d
+        udiff = !"f() { for file in $(git ls-files --others --exclude-standard); do git diff -- /dev/null $file; done; }; f"
+        del = !"f() { git diff --diff-filter=D --name-only -z | xargs -0 git rm -q ; }; f"
+        review = !"f() { test -n \"$1\" && git push origin HEAD:review/$1 || git show origin/master:.gitreview ; }; f"
+        accept = !"f() { test -n \"$1\" && [ \"`git rev-parse --abbrev-ref HEAD`\" = \"master\" ] && git remote update && git pull && git merge origin/review/$1 && git push || echo usage: git accept reference ; }; f"
+	undo-commit = reset --soft HEAD^
+        redo-commit = commit -C ORIG_HEAD
+        pick = !"f() { args=("$@"); files=${args[@]:1:$#-1}; echo $1; git checkout stash@{$1} -- $files;  }; f"
+        snapshot = !"f() { git add .; git del; git stash save "$1"; git stash apply; }; f"
+        ci-rm    = !"f() { files=("$@"); echo $@; git reset HEAD $@; git co -- $@; }; f"
+# force git stash apply on dirty working tree
+#       git stash show stash@{1} -p | git apply
+# parallel preload Git index to improve performance
+# setup line end handling in a way that ensure files in the central tree have lf EOLs
+[core]
+        preloadindex = true
+        eol = lf
+        autocrlf = input
+# when merging two branches add brief summary
+# of merged changes to the automatically generated merge commit
+[merge]
+        log = true
+        conflictstyle = diff3
+        tool = meld_3way
+# The left and right panes are read-only
+# and the middle pane shows you the base version of the text
+# for all conflicts so that you can see what it was changed to by either party.
+# The result of your work gets saved to $MERGED file, exactly where git expects it.
+### [from: git pull] [merge attempt] [from: git stash apply] ###
+[mergetool "meld_3way"]
+        cmd = meld --diff $BASE $LOCAL --diff $BASE $REMOTE --diff $LOCAL $BASE $REMOTE $MERGED
+# when pushing push to tracking branch if one exist
+[push]
+        default = tracking
+# always rebase on master branch to avoid polluting history with
+# trivial merge commits
+[branch "master"]
+        rebase = true
+# enable recording of conflict resolution
+[rerere]
+        enabled = true
+        autoupdate = true
+[gui]
+	recentrepo = ~/
+[diff]
+	guitool = meld
+[difftool]
+	prompt = false
