@@ -1,14 +1,10 @@
 // -*- C++ -*-
-
-#ifndef _Ternary_h_
-#define _Ternary_h_
-
+#pragma once
 
 #include "expr/MathFn.h"
 #include "expr/Passive.h"
 #include "expr/Unique.h"
 
-#include "util/AlwaysInline.h"
 #include "util/mp_functions.h"
 
 
@@ -61,14 +57,14 @@ struct Ternary<Fn, Unique<IPC, PC>, L, R>
   using _List_pv_u = mp_drop_c<_List_pv, mp_size<_LS_pv>::value>;
   using List_pv = mp_append<_List_pv, std::tuple<Passive<Ternary, C_type> > >;
 
-  AlwaysInline inline constexpr Ternary(Unique<IPC, C_type> const &c, L const &l, R const &r)
+  inline constexpr Ternary(Unique<IPC, C_type> const &c, L const &l, R const &r)
     : list_m(std::tuple_cat(_LS_m{_swap_m::left(l.list_m, r.list_m)}, mp_select_fn(_List_m_u{}, _swap_m::right(l.list_m, r.list_m))))
     , list_pv(std::tuple_cat(_LS_pv{_swap_pv::left(l.list_pv, r.list_pv)}, mp_select_fn(_List_pv_u{}, _swap_pv::right(l.list_pv, r.list_pv)),
                              std::make_tuple(Passive<Ternary, C_type>{c.value})))
   {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr ip = IP::value;
@@ -79,7 +75,7 @@ struct Ternary<Fn, Unique<IPC, PC>, L, R>
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr ip = IP::value;
@@ -115,13 +111,13 @@ struct Ternary<Fn, Unique<IPC, PC>, L, Unique<IPR, PR> >
   using List_fn = mp_append<typename L::List_fn, mp_list<mp_list<Ternary> > >;
   using List_pv = mp_append<typename L::List_pv, std::tuple<Passive<Ternary, std::tuple<C_type, R_type> > > >;
 
-  AlwaysInline inline constexpr Ternary(Unique<IPC, C_type> const &c, L const &l, Unique<IPR, R_type> const &r)
+  inline constexpr Ternary(Unique<IPC, C_type> const &c, L const &l, Unique<IPR, R_type> const &r)
     : list_m(l.list_m)
     , list_pv(std::tuple_cat(l.list_pv, std::make_tuple(Passive<Ternary, std::tuple<C_type, R_type> >{std::tuple<C_type, R_type>{c.value, r.value}})))
   {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr im = IM::value;
@@ -133,7 +129,7 @@ struct Ternary<Fn, Unique<IPC, PC>, L, Unique<IPR, PR> >
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr im = IM::value;
@@ -170,13 +166,13 @@ struct Ternary<Fn, Unique<IPC, PC>, Unique<IPL, PL>, R>
   using List_fn = mp_append<typename R::List_fn, mp_list<mp_list<Ternary> > >;
   using List_pv = mp_append<typename R::List_pv, std::tuple<Passive<Ternary, std::tuple<C_type, L_type> > > >;
 
-  AlwaysInline inline constexpr Ternary(Unique<IPC, C_type> const &c, Unique<IPL, L_type> const &l, R const &r)
+  inline constexpr Ternary(Unique<IPC, C_type> const &c, Unique<IPL, L_type> const &l, R const &r)
     : list_m(r.list_m)
     , list_pv(std::tuple_cat(r.list_pv, std::make_tuple(Passive<Ternary, std::tuple<C_type, R_type> >{std::tuple<C_type, L_type>{c.value, l.value}})))
   {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr ir = IR::value;
@@ -188,7 +184,7 @@ struct Ternary<Fn, Unique<IPC, PC>, Unique<IPL, PL>, R>
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr ir = IR::value;
@@ -205,6 +201,3 @@ struct Ternary<Fn, Unique<IPC, PC>, Unique<IPL, PL>, R>
   List_m const list_m;
   List_pv const list_pv;
 };
-
-
-#endif // _Ternary_h_

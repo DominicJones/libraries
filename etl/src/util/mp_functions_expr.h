@@ -1,7 +1,5 @@
 // -*- C++ -*-
-
-#ifndef _mp_functions_expr_h_
-#define _mp_functions_expr_h_
+#pragma once
 
 
 template<class, class> struct Unary;
@@ -123,6 +121,3 @@ struct mp_right_impl<Ternary<F, L, M, Unique<ID, T> > >
 };
 
 template<class T> using mp_right = typename mp_right_impl<T>::type;
-
-
-#endif // _mp_functions_expr_h_

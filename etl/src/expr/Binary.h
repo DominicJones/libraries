@@ -1,14 +1,10 @@
 // -*- C++ -*-
-
-#ifndef _Binary_h_
-#define _Binary_h_
-
+#pragma once
 
 #include "expr/MathFn.h"
 #include "expr/Passive.h"
 #include "expr/Unique.h"
 
-#include "util/AlwaysInline.h"
 #include "util/mp_functions.h"
 
 
@@ -50,18 +46,18 @@ struct Binary
   using R_type = typename R::type;
   using type = decltype(Fn::primal(L_type{}, R_type{}));
 
-  AlwaysInlineCtor inline constexpr Binary(L const &l, R const &r)
+  inline constexpr Binary(L const &l, R const &r)
     : list_m(mp_tuple_cat(_LS_m{_swap_m::left(l.list_m, r.list_m)}, mp_select_fn(_List_m_u{}, _swap_m::right(l.list_m, r.list_m))))
     , list_pv(mp_tuple_cat(_LS_pv{_swap_pv::left(l.list_pv, r.list_pv)}, mp_select_fn(_List_pv_u{}, _swap_pv::right(l.list_pv, r.list_pv))))
   {}
 
-  // AlwaysInlineCtor inline constexpr Binary(L const &l, R const &r)
+  // inline constexpr Binary(L const &l, R const &r)
   //   : list_m(mp_tuple_cat(_LS_m{_swap_m::left(l.list_m, r.list_m)}, mp_select_fn(_List_m_u{}, _swap_m::right(l.list_m, r.list_m))))
   //   , list_pv()
   // {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr il = IL::value;
@@ -70,7 +66,7 @@ struct Binary
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr il = IL::value;
@@ -101,13 +97,13 @@ struct Binary<Fn, L, Unique<IPR, PR> >
   using R_type = PR;
   using type = decltype(Fn::primal(L_type{}, R_type{}));
 
-  AlwaysInlineCtor inline constexpr Binary(L const &l, Unique<IPR, R_type> const &r)
+  inline constexpr Binary(L const &l, Unique<IPR, R_type> const &r)
     : list_m(l.list_m)
     , list_pv(mp_tuple_cat(l.list_pv, mp_tuple<Passive<Binary, PR> >{Passive<Binary, R_type>{r.value}}))
   {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr il = IL::value;
@@ -117,7 +113,7 @@ struct Binary<Fn, L, Unique<IPR, PR> >
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr il = IL::value;
@@ -149,13 +145,13 @@ struct Binary<Fn, Unique<IPL, PL>, R>
   using R_type = typename R::type;
   using type = decltype(Fn::primal(L_type{}, R_type{}));
 
-  AlwaysInlineCtor inline constexpr Binary(Unique<IPL, L_type> const &l, R const &r)
+  inline constexpr Binary(Unique<IPL, L_type> const &l, R const &r)
     : list_m(r.list_m)
     , list_pv(mp_tuple_cat(r.list_pv, mp_tuple<Passive<Binary, PL> >{Passive<Binary, L_type>{l.value}}))
   {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr im = IM::value;
@@ -165,7 +161,7 @@ struct Binary<Fn, Unique<IPL, PL>, R>
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr im = IM::value;
@@ -179,6 +175,3 @@ struct Binary<Fn, Unique<IPL, PL>, R>
   List_m const list_m;
   List_pv const list_pv;
 };
-
-
-#endif // _Binary_h_

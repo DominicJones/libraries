@@ -1,7 +1,5 @@
 // -*- C++ -*-
-
-#ifndef _mp_functions_extended_h_
-#define _mp_functions_extended_h_
+#pragma once
 
 
 // mp_type_of
@@ -434,54 +432,12 @@ template<bool c, std::size_t i>
 struct mp_get_if
 {
   template<typename L, typename T>
-  AlwaysInline inline static T &apply(L &l, T &) { return mp_get_r<i>(l); }
+  inline static T &apply(L &l, T &) { return mp_get_r<i>(l); }
 };
 
 template<std::size_t i>
 struct mp_get_if<false, i>
 {
   template<typename L, typename T>
-  AlwaysInline inline static T &apply(L &, T &nul) { return nul; }
+  inline static T &apply(L &, T &nul) { return nul; }
 };
-
-
-/////////////////////////////////////////
-// TESTING //////////////////////////////
-/////////////////////////////////////////
-
-
-#include <iostream>
-#include <typeinfo>
-// #include "demangle.h"
-
-// mp_print_list
-struct mp_print_list
-{
-  template<typename T>
-  void operator()(brigand::type_<T>)
-  {
-    // std::cout << "#" << (idx++) << "# " << demangle<T>() << std::endl;
-    std::cout << "#" << (idx++) << "# " << typeid(T).name() << std::endl;
-  }
-
-  int idx = 0;
-};
-
-
-// mp_print_tuple
-template<class TP>
-struct mp_print_tuple
-{
-  template<typename T>
-  void operator()(brigand::type_<T>)
-  {
-    // std::cout << "#" << (idx++) << "# " << typeid(T).name() << " = " << mp_get<T>(tp) << std::endl;
-    std::cout << "#" << (idx++) << "# " << T::type::value << " = " << mp_get<T>(tp) << std::endl;
-  }
-
-  TP tp;
-  int idx = 0;
-};
-
-
-#endif // _mp_functions_extended_h_

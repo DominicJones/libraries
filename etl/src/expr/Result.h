@@ -1,20 +1,16 @@
 // -*- C++ -*-
+#pragma once
 
-#ifndef _Result_h_
-#define _Result_h_
-
-
-#include "util/AlwaysInline.h"
 #include "util/mp_functions.h"
 
 
 // primal_m
 template<std::size_t I = 0, class N, class D, class L>
-AlwaysInline inline typename std::enable_if<(I == N::value)>::type
+inline typename std::enable_if<(I == N::value)>::type
 evaluate_primal_m(N n, D &pri, L const &l) {}
 
 template<std::size_t I = 0, class N, class D, class L>
-AlwaysInline inline typename std::enable_if<(I < N::value)>::type
+inline typename std::enable_if<(I < N::value)>::type
 evaluate_primal_m(N n, D &pri, L const &l)
 {
   using J = std::integral_constant<std::size_t, I>;
@@ -25,11 +21,11 @@ evaluate_primal_m(N n, D &pri, L const &l)
 
 // adjoint_m
 template<std::size_t I = 0, class N, class D, class L>
-AlwaysInline inline typename std::enable_if<(I == N::value)>::type
+inline typename std::enable_if<(I == N::value)>::type
 evaluate_adjoint_m(N n, D &adj, L const &l) {}
 
 template<std::size_t I = 0, class N, class D, class L>
-AlwaysInline inline typename std::enable_if<(I < N::value)>::type
+inline typename std::enable_if<(I < N::value)>::type
 evaluate_adjoint_m(N n, D &adj, L const &l)
 {
   using J = std::integral_constant<std::size_t, I>;
@@ -42,11 +38,11 @@ evaluate_adjoint_m(N n, D &adj, L const &l)
 
 // primal_fn
 template<std::size_t I = 0, class N, class D, class PV, class L, class IL, class IM, class IR, class IP>
-AlwaysInline inline typename std::enable_if<(I == N::value)>::type
+inline typename std::enable_if<(I == N::value)>::type
 evaluate_primal_fn(N n, D &pri, PV const &pv, L l, IL il, IM im, IR ir, IP ip) {}
 
 template<std::size_t I = 0, class N, class D, class PV, class L, class IL, class IM, class IR, class IP>
-AlwaysInline inline typename std::enable_if<(I < N::value)>::type
+inline typename std::enable_if<(I < N::value)>::type
 evaluate_primal_fn(N n, D &pri, PV const &pv, L l, IL il, IM im, IR ir, IP ip)
 {
   using J = std::integral_constant<std::size_t, I>;
@@ -67,11 +63,11 @@ evaluate_primal_fn(N n, D &pri, PV const &pv, L l, IL il, IM im, IR ir, IP ip)
 
 // adjoint_fn
 template<std::size_t I = 0, class N, class D, class PV, class L, class IL, class IM, class IR, class IP>
-AlwaysInline inline typename std::enable_if<(I == N::value)>::type
+inline typename std::enable_if<(I == N::value)>::type
 evaluate_adjoint_fn(N n, D &pri, D &adj, PV const &pv, L l, IL il, IM im, IR ir, IP ip) {}
 
 template<std::size_t I = 0, class N, class D, class PV, class L, class IL, class IM, class IR, class IP>
-AlwaysInline inline typename std::enable_if<(I < N::value)>::type
+inline typename std::enable_if<(I < N::value)>::type
 evaluate_adjoint_fn(N n, D &pri, D &adj, PV const &pv, L l, IL il, IM im, IR ir, IP ip)
 {
   using J = std::integral_constant<std::size_t, I>;
@@ -95,13 +91,13 @@ struct Result
 {
   using type = mp_type_of_t<T>;
 
-  AlwaysInline inline Result(type const &pri, type const &adj)
+  inline Result(type const &pri, type const &adj)
     : pri(pri)
     , adj(adj)
   {}
 
   template<typename E>
-  AlwaysInline inline void operator=(E const &e) const
+  inline void operator=(E const &e) const
   {
     using List_m = typename E::List_m;
     using List_fn_0 = mp_transform<std::remove_pointer_t, mp_rename<List_m, mp_list> >;
@@ -154,6 +150,3 @@ struct Result
   mutable type pri;
   mutable type adj;
 };
-
-
-#endif // _Result_h_

@@ -1,12 +1,8 @@
 // -*- C++ -*-
-
-#ifndef _Unary_h_
-#define _Unary_h_
-
+#pragma once
 
 #include "expr/MathFn.h"
 
-#include "util/AlwaysInline.h"
 #include "util/mp_functions.h"
 
 
@@ -25,13 +21,13 @@ struct Unary
   using L_type = typename L::type;
   using type = decltype(Fn::primal(L_type{}));
 
-  AlwaysInlineCtor inline constexpr Unary(L const &l)
+  inline constexpr Unary(L const &l)
     : list_m(l.list_m)
     , list_pv(l.list_pv)
   {}
 
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
+  inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr il = IL::value;
@@ -39,7 +35,7 @@ struct Unary
   }
 
   template<class Pri, class Adj, class PV, class I, class IL, class IM, class IR, class IP>
-  AlwaysInline inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
+  inline static void adjoint_fn(Pri &pri, Adj &adj, PV const &pv, I, IL, IM, IR, IP)
   {
     auto constexpr i = I::value;
     auto constexpr il = IL::value;
@@ -50,6 +46,3 @@ struct Unary
   List_m const list_m;
   List_pv const list_pv;
 };
-
-
-#endif // _Unary_h_

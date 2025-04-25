@@ -1,7 +1,5 @@
 // -*- C++ -*-
-
-#ifndef _hash_combine_h_
-#define _hash_combine_h_
+#pragma once
 
 #include <cstdint>
 
@@ -23,5 +21,3 @@ constexpr uint64_t hash_combine(uint64_t const &seed, uint64_t const &v, Args...
 
 #define HashCombine2(V0, V1) hash_combine(uint64_t(0), uint64_t(V0), uint64_t(V1))
 #define HashCombine3(V0, V1, V2) hash_combine(uint64_t(V0), uint64_t(V1), uint64_t(V2))
-
-#endif // _hash_combine_h_

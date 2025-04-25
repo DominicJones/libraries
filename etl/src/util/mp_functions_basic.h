@@ -1,4 +1,5 @@
 // -*- C++ -*-
+#pragma once
 
 /*
 Based on:
@@ -6,10 +7,6 @@ Based on:
   http://www.pdimov.com/cpp2/simple_cxx11_metaprogramming_2.html
   by Peter Dimov, 26.05.2015
 */
-
-
-#ifndef _mp_functions_basic_h_
-#define _mp_functions_basic_h_
 
 
 // MIGRATE
@@ -532,6 +529,3 @@ template<class L, std::size_t N> using mp_drop_c =
   typename mp_drop_c_impl<L, mp_repeat_c<N, void> >::type;
 
 template<class L, class N> using mp_drop = mp_drop_c<L, N::value>;
-
-
-#endif // _mp_functions_basic_h_

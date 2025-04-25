@@ -1,7 +1,5 @@
 // -*- C++ -*-
-
-#ifndef _Unique_h_
-#define _Unique_h_
+#pragma once
 
 
 template<std::size_t ID, typename T> struct Unique
@@ -18,11 +16,4 @@ std::ostream &operator<<(std::ostream &os, Unique<ID, T> const &obj)
 }
 
 
-/*
- * __COUNTER__ is non-standard,
- * but is supported by: GCC, Clang, MSVS
- */
 #define UQ(value) Unique<__COUNTER__, decltype(value)>{value}
-
-
-#endif // _Unique_h_
