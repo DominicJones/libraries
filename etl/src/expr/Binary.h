@@ -22,8 +22,8 @@ struct Binary
   using _swap_m = mp_swap<_L_m, _R_m>;
   using _LS_m = typename _swap_m::Left;
   using _RS_m = typename _swap_m::Right;
-  using _List_m_l = brigand::as_set<_LS_m>;
-  using _List_m_r = brigand::as_set<_RS_m>;
+  using _List_m_l = mp_as_set<_LS_m>;
+  using _List_m_r = mp_as_set<_RS_m>;
   using List_m = mp_rename<mp_insert_all<_List_m_l, _List_m_r>, mp_tuple>;
   using _List_m_u = mp_drop_c<List_m, mp_size<_LS_m>::value>;
 
@@ -37,8 +37,8 @@ struct Binary
   using _swap_pv = mp_swap<_L_pv, _R_pv>;
   using _LS_pv = typename _swap_pv::Left;
   using _RS_pv = typename _swap_pv::Right;
-  using _List_pv_l = brigand::as_set<_LS_pv>;
-  using _List_pv_r = brigand::as_set<_RS_pv>;
+  using _List_pv_l = mp_as_set<_LS_pv>;
+  using _List_pv_r = mp_as_set<_RS_pv>;
   using List_pv = mp_rename<mp_insert_all<_List_pv_l, _List_pv_r>, mp_tuple>;
   using _List_pv_u = mp_drop_c<List_pv, mp_size<_LS_pv>::value>;
 

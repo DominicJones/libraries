@@ -8,10 +8,6 @@ Based on:
   by Peter Dimov, 26.05.2015
 */
 
-
-// MIGRATE
-#include "brigand.hpp"
-
 #include "mp_tuple.h"
 
 #include <tuple>
@@ -20,10 +16,7 @@ Based on:
 
 
 // mp_list
-/*
 template<class... T> struct mp_list {};
-*/
-template<class... T> using mp_list = brigand::list<T...>;
 
 
 // mp_void

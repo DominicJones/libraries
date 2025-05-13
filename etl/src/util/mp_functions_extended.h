@@ -1,6 +1,28 @@
 // -*- C++ -*-
 #pragma once
 
+#include "brigand.hpp"
+
+
+// mp_insert
+template<typename L, typename T>
+using mp_insert = brigand::insert<L, T>;
+
+
+// mp_as_list
+template<typename L>
+using mp_as_list = brigand::as_list<L>;
+
+
+// mp_as_set
+template<typename L>
+using mp_as_set = brigand::as_set<L>;
+
+
+// mp_bool
+template<bool B>
+using mp_bool = std::integral_constant<bool, B>;
+
 
 // mp_type_of
 template<class T> struct mp_type_of
@@ -178,7 +200,7 @@ template<class S, template<class...> class L> struct mp_insert_all_impl<S, L<> >
 template<class S, template<class...> class L, class T1, class... T>
 struct mp_insert_all_impl<S, L<T1, T...> >
 {
-  using _S1 = brigand::insert<S, T1>;
+  using _S1 = mp_insert<S, T1>;
   using type = mp_insert_all<_S1, L<T...> >;
 };
 
@@ -192,7 +214,7 @@ template<class L1, class L2> using mp_uniq_merge = typename mp_uniq_merge_impl<L
 template<template<class...> class L1, class... T1, template<class...> class L2, class... T2>
 struct mp_uniq_merge_impl<L1<T1...>, L2<T2...> >
 {
-  using type = L1<brigand::as_list<mp_insert_all<brigand::as_set<T1>, brigand::as_set<T2> > >... >;
+  using type = L1<mp_as_list<mp_insert_all<mp_as_set<T1>, mp_as_set<T2> > >... >;
 };
 
 
@@ -298,12 +320,12 @@ template<class M, class L> using mp_subgroup_find = typename mp_subgroup_find_en
 
 // mp_incr
 template<typename T0, typename T1>
-using mp_incr = brigand::bool_<(T0::value < T1::value)>;
+using mp_incr = mp_bool<(T0::value < T1::value)>;
 
 
 // mp_map_incr
 template<typename T0, typename T1>
-using mp_map_incr = brigand::bool_<(mp_first<T0>::value < mp_first<T1>::value)>;
+using mp_map_incr = mp_bool<(mp_first<T0>::value < mp_first<T1>::value)>;
 
 
 // mp_swap (if L < R)
