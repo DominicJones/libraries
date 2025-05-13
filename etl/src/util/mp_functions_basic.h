@@ -225,7 +225,6 @@ template<std::size_t N> using mp_iota_v = mp_from_sequence<std::make_index_seque
 
 
 // mp_append
-/*
 template<class... L> struct mp_append_impl;
 
 template<class... L> using mp_append = typename mp_append_impl<L...>::type;
@@ -246,8 +245,6 @@ struct mp_append_impl<L1<T1...>, L2<T2...>, Lr...>
 {
   using type = mp_append<L1<T1..., T2...>, Lr...>;
 };
-*/
-template<class... L> using mp_append = brigand::append<L...>;
 
 
 // mp_sequence
@@ -475,7 +472,6 @@ template<class L> using mp_reversed_map_from_list =
 
 
 // mp_at
-/*
 template<class L, std::size_t I> struct mp_at_c_impl
 {
   using map = mp_map_from_list<L>;
@@ -485,10 +481,6 @@ template<class L, std::size_t I> struct mp_at_c_impl
 template<class L, std::size_t I> using mp_at_c = typename mp_at_c_impl<L, I>::type;
 
 template<class L, class I> using mp_at = typename mp_at_c_impl<L, I::value>::type;
-*/
-template<class L, std::size_t I> using mp_at_c = brigand::at_c<L, I>;
-
-template<class L, class I> using mp_at = brigand::at<L, I>;
 
 
 // mp_at (standard version)

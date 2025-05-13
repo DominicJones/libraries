@@ -21,7 +21,6 @@ template<class T> using mp_sizeof_t = typename mp_sizeof<T>::type;
 
 
 // mp_reverse
-/*
 template<class L>
 struct mp_reverse_impl;
 
@@ -40,8 +39,6 @@ struct mp_reverse_impl<L<T1, T...>>
 };
 
 template<class L> using mp_reverse = typename mp_reverse_impl<L>::type;
-*/
-template<class L> using mp_reverse = brigand::reverse<L>;
 
 
 // mp_get
@@ -125,7 +122,6 @@ struct mp_merge_impl<L1<T1...>, L2<T2...> >
 
 
 // mp_flatten
-/*
 template<class L>
 struct mp_flatten_impl;
 
@@ -136,8 +132,6 @@ struct mp_flatten_impl<L<T...> >
 };
 
 template<class L> using mp_flatten = typename mp_flatten_impl<L>::type;
-*/
-template<class L> using mp_flatten = brigand::flatten<L>;
 
 
 // mp_match
