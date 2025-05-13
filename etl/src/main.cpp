@@ -49,13 +49,6 @@ int main()
 {
   // testing
   {
-    using I = mp_list<UC<3>,UC<4>>;
-    using O = mp_dual<I,6>;
-    using E = mp_list<UC<2>,UC<2>,UC<2>,UC<0>,UC<1>,UC<2>>;
-    static_assert(std::is_same_v<O, E>);
-  }
-
-  {
     std::array<int, 2> constexpr i{3,4};
     auto constexpr o = dual<6>(i);
     std::array<int, 6> constexpr e{2,2,2,0,1,2};

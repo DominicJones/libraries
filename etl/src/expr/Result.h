@@ -120,7 +120,7 @@ struct Result
     using LR = mp_transform<mp_right, L>;
 
     using _IP = mp_subgroup_find<List_pt, List_fn_0N>;
-    using IP = mp_dual<_IP, size_fn>;
+    using IP = array_to_list_t<dual<size_fn>(list_to_array_v<_IP>)>;
 
     using IL = mp_subgroup_find<LL, List_fn_0N>;
     using IM = mp_subgroup_find<LM, List_fn_0N>;
