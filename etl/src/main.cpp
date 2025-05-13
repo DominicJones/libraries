@@ -56,6 +56,27 @@ int main()
   }
 
   {
+    std::array<int, 2> constexpr i{3,4};
+    auto constexpr o = dual<6>(i);
+    std::array<int, 6> constexpr e{2,2,2,0,1,2};
+    static_assert(is_same(o, e));
+  }
+
+  {
+    using I = mp_list<UC<3>,UC<4>>;
+    auto constexpr o = list_to_array_v<I>;
+    std::array<int, 2> constexpr e{3,4};
+    static_assert(is_same(o, e));
+  }
+
+  {
+    using I = mp_list<UC<3>,UC<4>>;
+    using O = array_to_list_t<dual<6>(list_to_array_v<I>)>;
+    using E = mp_list<UC<2>,UC<2>,UC<2>,UC<0>,UC<1>,UC<2>>;
+    static_assert(std::is_same_v<O, E>);
+  }
+
+  {
     Terminal<A> const a(3);
     Terminal<B> const b(4);
     Result<R> r(0, 1);

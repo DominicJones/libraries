@@ -15,7 +15,7 @@ concept has_subscript_op = requires(V v, I i) { v[i]; };
 template<auto size>
 consteval auto dual(has_subscript_op<> auto a)
 {
-  std::array<int, size> result;
+  std::array<std::size_t, size> result;
   result.fill(a.size());
 
   int it_dual = 0;
@@ -79,6 +79,37 @@ consteval auto is_same(has_subscript_op<> auto a, has_subscript_op<> auto b)
   }
   return result;
 }
+
+
+
+
+template<typename L, typename VT> struct list_to_array;
+
+template<template<typename...> typename L, typename... T, typename VT>
+struct list_to_array<L<T...>, VT>
+{
+  static auto constexpr value = std::array<VT, sizeof...(T)>{T::value...};
+};
+
+template<typename L, typename VT = std::size_t>
+static inline auto constexpr list_to_array_v = list_to_array<L, VT>::value;
+
+
+
+
+template<has_subscript_op<> auto A, typename S = std::make_index_sequence<A.size()> >
+struct array_to_list;
+
+template<auto A, auto... I>
+struct array_to_list<A, std::index_sequence<I...> >
+{
+  template<typename...T> using list = mp_list<T...>; // dependency
+  using value_type = typename decltype(A)::value_type;
+  using type = list<std::integral_constant<value_type, A[I]>...>;
+};
+
+template<auto A> using array_to_list_t = typename array_to_list<A>::type;
+
 
 
 
