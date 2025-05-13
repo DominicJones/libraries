@@ -13,7 +13,6 @@
 #include "expr/Terminal.h"
 #include "expr/Unary.h"
 #include "expr/Binary.h"
-#include "expr/Ternary.h"
 #include "expr/Result.h"
 #include "expr/Unique.h"
 
@@ -40,8 +39,22 @@ void eval(Terminal<A> const &arg0,
 }
 
 
+// testing
+template<auto value> using UC = std::integral_constant<std::size_t, value>;
+template<auto value> using IC = std::integral_constant<int, value>;
+template<typename T> struct debug_type;
+
+
 int main()
 {
+  // testing
+  {
+    using I = mp_list<UC<3>,UC<4>>;
+    using O = mp_dual<I,6>;
+    using E = mp_list<UC<2>,UC<2>,UC<2>,UC<0>,UC<1>,UC<2>>;
+    static_assert(std::is_same_v<O, E>);
+  }
+
   {
     Terminal<A> const a(3);
     Terminal<B> const b(4);

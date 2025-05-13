@@ -51,11 +51,6 @@ struct Binary
     , list_pv(mp_tuple_cat(_LS_pv{_swap_pv::left(l.list_pv, r.list_pv)}, mp_select_fn(_List_pv_u{}, _swap_pv::right(l.list_pv, r.list_pv))))
   {}
 
-  // inline constexpr Binary(L const &l, R const &r)
-  //   : list_m(mp_tuple_cat(_LS_m{_swap_m::left(l.list_m, r.list_m)}, mp_select_fn(_List_m_u{}, _swap_m::right(l.list_m, r.list_m))))
-  //   , list_pv()
-  // {}
-
   template<class Pri, class PV, class I, class IL, class IM, class IR, class IP>
   inline static void primal_fn(Pri &pri, PV const &pv, I, IL, IM, IR, IP)
   {

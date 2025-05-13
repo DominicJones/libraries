@@ -1,8 +1,6 @@
 // -*- C++ -*-
 #pragma once
 
-#include "expr/cond.h"
-
 #include <cmath>
 
 
@@ -77,14 +75,4 @@ struct Div
   static char const * name() { return "/"; }
   inline static double primal(double a, double b) { return a / b; }
   inline static void adjoint(double a, double &ad, double b, double &bd, double rd) { double br{1/b}; ad += rd * br; bd -= a * rd * br * br; }
-};
-
-
-struct Cond
-{
-  static constexpr bool is_trivial = true;
-  static constexpr std::size_t hash_value = 182941;
-  static char const * name() { return "?"; }
-  inline static double primal(bool c, double a, double b) { return cond(c, a, b); }
-  inline static void adjoint(bool c, bool &, double a, double &ad, double b, double &bd, double rd) { if (c) { ad += rd; } else { bd += rd; } }
 };

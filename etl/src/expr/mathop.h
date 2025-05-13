@@ -2,7 +2,6 @@
 #pragma once
 
 #include "expr/MathFn.h"
-#include "expr/cond.h"
 
 #include "util/hash_combine.h"
 
@@ -14,9 +13,6 @@ struct Unary;
 
 template<typename Fn, typename L, typename R>
 struct Binary;
-
-template<typename Fn, typename L, typename M, typename R>
-struct Ternary;
 
 
 #define GenerateUnaryOperator(Fn, Op)           \
@@ -49,21 +45,6 @@ GenerateBinaryOperator(Mul, operator*);
 GenerateBinaryOperator(Div, operator/);
 
 #undef GenerateBinaryOperator
-
-
-#define GenerateTernaryOperator(Fn, Op)                 \
-  template<typename L, typename M, typename R>          \
-  inline constexpr Ternary<Fn, L, M, R>    \
-  Op(L const &l, M const &m, R const &r)                \
-  {                                                     \
-    return Ternary<Fn, L, M, R>{l, m, r};               \
-  }
-
-GenerateTernaryOperator(Cond, cond);
-
-#undef GenerateTernaryOperator
-
-
 
 
 template<std::size_t ID, typename T>
